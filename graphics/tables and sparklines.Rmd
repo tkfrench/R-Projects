@@ -1,5 +1,5 @@
 ---
-title: "tables and sparklines"
+title: "Tables and Sparklines"
 author: "Thomas French"
 date: "5/15/2022"
 output:
@@ -18,6 +18,9 @@ library(lubridate)
 library(kableExtra)
 ```
 
+# KableExtra
+
+Example:
 
 ```{r echo=TRUE}
 
@@ -85,7 +88,6 @@ for (tp in c("p","l","b",  "c","o","h",  "s","S","n")) {
 par(op)
 
 ```
-
 
 ```{r echo=TRUE}
 ##--- Log-Log Plot  with  custom axes
