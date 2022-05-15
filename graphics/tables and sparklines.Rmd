@@ -4,11 +4,19 @@ author: "Thomas French"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   html_document:
+    css: ['css/style.css', 'css/custom.css']
+    df_print: paged
+    highlight: tango
+    number_sections: no
+    theme: sandstone
     code_folding: hide
     toc: true
-    toc_depth: 2
-    toc_float: true
-    
+    toc_depth: 6
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+params:
+  MyParam01: "0"    
 ---
 
 ```{r setup, include=FALSE}
