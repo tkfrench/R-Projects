@@ -38,8 +38,6 @@ Example:
 
 ```{r echo=TRUE}
 
-
-
 #Convert time series to a data frame
 ap <- data.frame(passengers=as.matrix(AirPassengers), date=as.numeric(time(AirPassengers)))
 
