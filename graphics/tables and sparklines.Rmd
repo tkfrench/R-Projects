@@ -273,3 +273,19 @@ p
 
 ```
 
+
+## Customize ggplot text
+```{r}
+#https://www.youtube.com/watch?v=TUKV7Xk1218&list=PL7D2RMSmRO9JOvPC1gbA8Mc3azvSfm8Vv&index=14
+library(ggplot2)
+library(ggtext)
+p1 <- ggplot(mtcars) + 
+  geom_point(aes(mpg, disp)) + 
+  ggtitle('Plot 1')
+
+p1 +
+  labs(title="<strong><span style='color:#ff8c00'>This</span></strong> and <strong><span style='color:red'>That</span></strong>: Some more text"
+       ) +
+  theme(plot.title = element_markdown(), legend.position= "none")
+```
+
