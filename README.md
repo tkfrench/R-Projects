@@ -18,3 +18,4 @@
 
 -   Simulated Data
 -   Custom functions
+-   load libray 'usethis' for git congiuration
