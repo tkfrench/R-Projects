@@ -300,6 +300,25 @@ cars %>%  DT::  datatable(extensions = 'Buttons',
                                              c(10,25,50,"All"))))
 ```
 
+## Radar Chart
+
+```{r}
+
+library(radarchart)
+
+labs <- c("Composite", "ER", "Inpatient",
+          "Home Health",  "Hospice", "MG","ACN-Virtual", "ACN-Express" )
+
+scores <- list(
+  "R1" = c(63, 62, 64, 43, 55, 30, 78, 66),
+  "R2" = c(72, 63, 66, 23, 66, 91, 62, 78),
+  "R3" = c(64, 53, 82, 44, 78, 63, 77, 90)
+)
+
+chartJSRadar(scores = scores, labs = labs, maxScale = 100, 
+             scaleStepWidth=10, scaleStartValue=0) 
+```
+
 ## Animation
 
 ```{r warning=FALSE}
@@ -361,5 +380,80 @@ df2 %>%  as.data.frame() %>%
   # view_follow(fixed_y = TRUE) + #Let the view follow the data in each frame
   ease_aes('cubic-in-out') # Slow start and end for a smoother look
 
+
+```
+
+## Collapsible Tree
+
+```{r warning=FALSE}
+library(collapsibleTree)
+ species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP.csv")
+ # Data from US Forest Service DataMart
+species <- read.csv("https://apps.fs.usda.gov/fia/datamart/CSV/REF_SPECIES_GROUP.csv")
+
+collapsibleTree(
+  species,
+  hierarchy = c("REGION", "CLASS", "NAME"), 
+  fill = c(
+    # The root
+    "seashell",
+    # Unique regions
+    rep("brown", length(unique(species$REGION))),
+    # Unique classes per region
+    rep("khaki", length(unique(paste(species$REGION, species$CLASS)))),
+    # Unique names per region
+    rep("forestgreen", length(unique(paste(species$NAME, species$REGION))))
+  )
+)
+```
+
+## Interactive 3D Plots
+
+```{r, warning=FALSE}
+library("car")
+library("rgl")
+sep.l <- iris$Sepal.Length
+sep.w <- iris$Sepal.Width
+pet.l <- iris$Petal.Length
+
+library(car)
+# 3D plot with the regression plane
+scatter3d(x = sep.l, y = pet.l, z = sep.w)
+scatter3d(x = sep.l, y = pet.l, z = sep.w, groups = iris$Species)
+
+scatter3d(x = sep.l, y = pet.l, z = sep.w,  grid = FALSE,groups = iris$Species,
+          point.col = "blue", surface=FALSE, ellipsoid = TRUE,
+          surface.col = c("#999999", "#E69F00", "#56B4E9"),
+          xlab = "Sepal Length (cm)", ylab = "Petal Length (cm)",
+          zlab = "Sepal Width (cm)")
+# Save
+#rgl.snapshot(filename = "plot.png")
+```
+
+## Ridge Plots
+```{r, warning=FALSE}
+library(PSJHR)
+library(dplyr)
+library(ggridges)
+library(ggplot2)
+library(viridis)
+library(hrbrthemes)
+
+df <- FakeDataPOC %>% 
+  select(INSTITUTE,COHORT, DischargeDt, IP.LOS.Numerator, IP.LOS.Denominator, 
+         Overall_Rating, HLMRScore) %>%
+  mutate(IP.LOS.Numerator.log = log(IP.LOS.Numerator),
+         IP.LOS.OE            = IP.LOS.Numerator / IP.LOS.Denominator,
+         mo = substr(DischargeDt,6,7) ,
+         yr = substr(DischargeDt,1,4) ) %>%
+  filter(!is.na(HLMRScore) & HLMRScore>60 )  
+  
+ggplot(df, aes(x = HLMRScore,  y = `COHORT`, fill = ..x..)) +
+geom_density_ridges_gradient(scale = 3, 
+                             rel_min_height = 0.01, 
+                             quantile_lines = TRUE, 
+                             quantiles = 2) +
+  scale_fill_viridis(name = "Score", option = "C") +
+  labs(title = 'HLMR Scores by Cohort') 
 
 ```

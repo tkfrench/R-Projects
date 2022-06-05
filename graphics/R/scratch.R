@@ -41,3 +41,43 @@ p<-cowplot::plot_grid(
 )
 
 p
+
+
+
+
+library("car")
+library("rgl")
+sep.l <- iris$Sepal.Length
+sep.w <- iris$Sepal.Width
+pet.l <- iris$Petal.Length
+
+library(car)
+# 3D plot with the regression plane
+scatter3d(x = sep.l, y = pet.l, z = sep.w)
+scatter3d(x = sep.l, y = pet.l, z = sep.w, groups = iris$Species)
+
+scatter3d(x = sep.l, y = pet.l, z = sep.w,  grid = FALSE,groups = iris$Species,
+          point.col = "blue", surface=FALSE, ellipsoid = TRUE,
+          surface.col = c("#999999", "#E69F00", "#56B4E9"),
+          xlab = "Sepal Length (cm)", ylab = "Petal Length (cm)",
+          zlab = "Sepal Width (cm)")
+# Save
+#rgl.snapshot(filename = "plot.png")
+
+
+
+################################
+
+library(radarchart)
+
+labs <- c("Composite", "ER", "Inpatient",
+          "Home Health",  "Hospice", "MG","ACN-Virtual", "ACN-Express" )
+
+scores <- list(
+  "R1" = c(63, 62, 64, 43, 55, 30, 78, 66),
+  "R2" = c(72, 63, 66, 23, 66, 91, 62, 78),
+  "R3" = c(64, 53, 82, 44, 78, 63, 77, 90)
+)
+
+chartJSRadar(scores = scores, labs = labs, maxScale = 100, 
+             scaleStepWidth=10, scaleStartValue=0) 
